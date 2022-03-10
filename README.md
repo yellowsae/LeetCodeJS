@@ -1,1 +1,1 @@
-# LeetCodeJS
+# 每日算法
