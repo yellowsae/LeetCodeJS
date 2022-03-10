@@ -1,0 +1,7 @@
+### vscode ### 
+/.vscode
+/.venv
+/node_modules
+
+### IntelliJ IDEA ###
+/.idea
