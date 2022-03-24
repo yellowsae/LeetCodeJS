@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 定义栈
+
+        // 使用 Symbol 创建
+        // var _items = Symbol();
+
+        // 3 使用 WeakMap 弱引用
+        // var _items = new WeakMap();
+
+        // function Stack() {
+        //     // 因为栈是通过数值定义的 
+        //     // this.items = [];
+        //     // 使用Symbol的属性，创建数组
+        //     // this[_items] = []
+
+        //     // 3. 创建数组. key 传入this , value传入 []
+        //     _items.set(this, []);
+        // }
+
+        // // 在原型上定义栈的方法
+        // Stack.prototype.push = function(elem) {
+        //     // 读取this, 通过 push 添加
+        //     _items.get(this).push(elem);
+        // }
+
+        // Stack.prototype.pop = function() {
+        //     return _items.get(this).pop();
+        // }
+
+        // // 返回栈顶元素
+        // Stack.prototype.peek = function() {
+        //     return _items.get(this)[_items.get(this).length - 1];
+        // }
+
+        // // 判断栈是否为空
+        // Stack.prototype.isEmpty = function() {
+        //     return _items.get(this).length === 0 ? true : false;
+        // }
+
+        // Stack.prototype.clear = function() {
+        //     _items.get(this).length = 0;
+        // }
+
+        // Stack.prototype.size = function() {
+        //     return _items.get(this).length;
+        // }
+
+
+        // 使用 以上定义的方法， 因为WeakMap 是全局遍历，在调用函数是会产生闭包，
+
+        // 对代码优化 , 使用立即执行函数 ()()
+        /**
+        var Stack = (function() {
+            var _items = new WeakMap();
+            // 定义的方法
+            var Stack = function() {
+                    // 因为栈是通过数值定义的 
+                    // this.items = [];
+                    // 使用Symbol的属性，创建数组
+                    // this[_items] = []
+
+                    // 3. 创建数组. key 传入this , value传入 []
+                    _items.set(this, []);
+                }
+                // 在原型上定义栈的方法
+            Stack.prototype.push = function(elem) {
+                // 读取this, 通过 push 添加
+                _items.get(this).push(elem);
+            }
+
+            Stack.prototype.pop = function() {
+                return _items.get(this).pop();
+            }
+
+            // 返回栈顶元素
+            Stack.prototype.peek = function() {
+                return _items.get(this)[_items.get(this).length - 1];
+            }
+
+            // 判断栈是否为空
+            Stack.prototype.isEmpty = function() {
+                return _items.get(this).length === 0 ? true : false;
+            }
+
+            Stack.prototype.clear = function() {
+                _items.get(this).length = 0;
+            }
+
+            Stack.prototype.size = function() {
+                return _items.get(this).length;
+            }
+
+            return Stack;
+        })()
+        */
+
+        // 使用 ES6 的class类 和 立即执行函数 
+        var Stack = (function() {
+            var _items = new WeakMap();
+            return class Stack {
+                constructor() {
+                    // 定义初始化数据
+                    _items.set(this, []);
+                };
+                // 定义方法
+                push(elem) {
+                    // 读取this, 通过 push 添加
+                    _items.get(this).push(elem);
+                }
+
+                pop() {
+                    return _items.get(this).pop();
+                }
+
+                // 返回栈顶元素
+                peek() {
+                    return _items.get(this)[_items.get(this).length - 1];
+                }
+
+                // 判断栈是否为空
+                isEmpty() {
+                    return _items.get(this).length === 0 ? true : false;
+                }
+
+                clear() {
+                    _items.get(this).length = 0;
+                }
+
+                size() {
+                    return _items.get(this).length;
+                }
+
+                toString() {
+                    // 获取toString 方法
+                    return _items.get(this).toString();
+                }
+            };
+        })()
+
+        var a = new Stack();
+        a.push(1);
+        a.push(2);
+        a.push(3);
+        a.push(4);
+        a.push(5);
+
+        console.log(a);
+        console.log(a.pop());
+        console.log(a.peek());
+        console.log(a.isEmpty());
+        a.clear();
+        console.log(a.isEmpty());
+        console.log(a.size());
+    </script>
+</body>
+
+</html>

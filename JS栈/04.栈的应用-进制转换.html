@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 使用 ES6 的class类 和 立即执行函数 
+        var Stack = (function() {
+                var _items = new WeakMap();
+                return class Stack {
+                    constructor() {
+                        // 定义初始化数据
+                        _items.set(this, []);
+                    };
+                    // 定义方法
+                    push(elem) {
+                        // 读取this, 通过 push 添加
+                        _items.get(this).push(elem);
+                    }
+
+                    pop() {
+                        return _items.get(this).pop();
+                    }
+
+                    // 返回栈顶元素
+                    peek() {
+                        return _items.get(this)[_items.get(this).length - 1];
+                    }
+
+                    // 判断栈是否为空
+                    isEmpty() {
+                        return _items.get(this).length === 0 ? true : false;
+                    }
+
+                    clear() {
+                        _items.get(this).length = 0;
+                    }
+
+                    size() {
+                        return _items.get(this).length;
+                    }
+
+                    toString() {
+                        // 获取toString 方法
+                        return _items.get(this).toString();
+                    }
+                };
+            })()
+            // 栈的应用， 进制的转换  
+            // 在JS 中使用 进制转换方法parseInt,  和 Number.prototype.toString 方法
+            // console.log((123).toString(2));
+            // 在不使用这两个api 的情况下，使用栈进行进制的转换
+
+        // 10 / 2  = 5    0
+        // 5 / 2  = 2     1
+        // 2 / 2  = 1     0
+        // 1 / 2  =  0    1
+
+        // 1010 从栈低到栈顶
+
+        function divdeBy(num, base) {
+            // 定义栈
+            var remStack = new Stack(),
+                rem, // 余数
+                res = '',
+                digits = '0123456789abcdef';
+            while (num > 0) {
+                // 取num的余数
+                rem = num % base;
+                // 将余数放入栈中
+                remStack.push(rem);
+                // 让num重新赋值
+                num = Math.floor(num / base);
+            }
+            // console.log(remStack.toString()) // 0,1,0,1
+
+            // 处理栈的数据, 拼接字符串， 然后返回出去
+            while (!remStack.isEmpty()) { // 判断栈是否为空
+                // console.log(remStack.pop().toString()); // 取栈顶的数据
+                res = res + digits[remStack.pop()];
+                // digits[remStack.pop()] 处理16进制是
+            }
+            return res;
+        }
+
+        console.log(divdeBy(1000, 16));
+    </script>
+</body>
+
+</html>

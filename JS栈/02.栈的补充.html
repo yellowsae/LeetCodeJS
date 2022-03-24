@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 定义栈
+
+        // 使用 Symbol 创建
+        var _items = Symbol();
+
+        function Stack() {
+            // 因为栈是通过数值定义的 
+            // this.items = [];
+            // 使用Symbol的属性，创建数组
+            this[_items] = []
+        }
+
+        // 在原型上定义栈的方法
+        Stack.prototype.push = function(elem) {
+            this[_items].push(elem);
+        }
+
+        Stack.prototype.pop = function() {
+            return this[_items].pop();
+        }
+
+        Stack.prototype.peek = function() {
+            return this[_items][this[_items].length - 1];
+        }
+
+        Stack.prototype.isEmpty = function() {
+            return this[_items].length === 0 ? true : false;
+        }
+
+        Stack.prototype.clear = function() {
+            this[_items].length = 0;
+        }
+
+        Stack.prototype.size = function() {
+            return this[_items].length;
+        }
+
+        var a = new Stack();
+        a.push(1);
+        a.push(2);
+        a.push(3);
+        a.push(4);
+
+        // 这里出现的问题
+        // 不仅 a 可以直接使用 push ， 并且能够直接访问到 items, 原本数组 ，并且可以通过原本数组的方法 push 也能实现添加
+
+        // a.items.push(123);
+        // 所以这种方法定义栈，不严谨。 具有漏洞
+
+        // 其他方法  私有成员   Symbol   WeakMap
+
+        // 1.使用Symbol
+
+        // console.log(a.Symbol()); // 改为Symbol后，a访问不了Symbol成员
+
+        // 使用Symbol还具有漏洞
+        // ES6 可以通过方法可以获取到Symbol的属性
+        // console.log(Object.getOwnPropertySymbols(a)); // 能够访问到Symbol
+
+        var key = Object.getOwnPropertySymbols(a)[0];
+        console.log(key);
+        // 拿到key 之后 就可以使用 Symbol定义的数组的push 方法
+        a[key].push(456);
+
+        console.log(a); // 能够可以添加
+        // for (var i in a) {
+        //     console.log(i);
+        // }
+    </script>
+</body>
+
+</html>

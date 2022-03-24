@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 数据结构 栈
+        /**
+         * 栈： 数据集合（有序）；  后进先出 (LIFO)
+         * 
+         * 分为 栈顶  栈低
+         * 
+         * 栈的一般方法 
+         * push 新增元素
+         * pop 移除栈顶元素
+         * peek 返回栈顶的元素
+         * isEmpty 判断栈是否为空
+         * clear 移除栈的所有元素
+         * size 返回栈的元素个数
+         * 
+         */
+
+        // 定义栈
+        function Stack() {
+            // 因为栈是通过数值定义的 
+            this.items = [];
+        }
+
+        // 在原型上定义栈的方法
+        Stack.prototype.push = function(elem) {
+            this.items.push(elem);
+        }
+
+        Stack.prototype.pop = function() {
+            return this.items.pop();
+        }
+
+        Stack.prototype.peek = function() {
+            return this.items[this.items.length - 1];
+        }
+
+        Stack.prototype.isEmpty = function() {
+            return this.items.length === 0 ? true : false;
+        }
+
+        Stack.prototype.clear = function() {
+            this.items.length = 0;
+        }
+
+        Stack.prototype.size = function() {
+            return this.items.length;
+        }
+
+
+        var a = new Stack();
+        a.push(1);
+        a.push(2);
+        a.push(3);
+        a.push(4);
+
+        a.items.push(123);
+        console.log(a);
+    </script>
+</body>
+
+</html>
