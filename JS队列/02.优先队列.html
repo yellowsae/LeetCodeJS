@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let PriorityQueue = (function() {
+            var _items = new WeakMap();
+
+            // 定义一个类方法
+            function QueueElement(elem, priority) { // 定义的类
+                // elem 数据 
+                // priority 优先级
+
+                // {"name", "priority"}  —— 以这样的方存储数据
+                this.elem = elem;
+                this.priority = priority;
+            }
+
+            return class Queue {
+                constructor() {
+                    _items.set(this, []);
+                };
+                // 1. enqueue 入列 
+                enqueue(elem, priority) { // 外部传入的参数
+
+                    // 实例化对象 —— 进行赋值 
+                    var queueElement = new QueueElement(elem, priority);
+
+                    // adder 判断数组是否为空
+                    let adder = false;
+
+                    // 分析，1. 判断当前数组是否为空  2. 对数组进行排序
+
+                    // for循环 数组，判断循环的元素是否小于当前元素的优先级
+                    for (let i = 0; i < _items.get(this).length; i++) {
+                        if (queueElement.priority < _items.get(this)[i].priority) {
+                            // 在指定项插入 QueueElement 对象 - 数据 {"", ""}
+                            _items.get(this).splice(i, 0, queueElement);
+
+                            // adder - true 数组不为空
+                            adder = true
+                            break;
+                        }
+                    }
+
+                    // 当数组为空的时候
+                    if (!adder) {
+                        // 当数组为空的时候, 直接添加数据 - 此时的数据为一个QueueElement 对象
+                        _items.get(this).push(queueElement)
+                    }
+
+                    // _items.get(this).push(elem);
+                };
+                // 2. dequeue 出列
+                dequeue(elem) {
+                    // 使用 shift () 移除数组最前的元素
+                    _items.get(this).shift();
+                };
+
+                //3. fnont 获取最前的元素
+                front() {
+                    // 返回队列最前的元素
+                    return _items.get(this)[0];
+                };
+
+                // 4. 判断队列是否为空
+                isEmpty() {
+                    return _items.get(this).length === 0;
+                };
+
+                //size 返回队列的长度
+                size() {
+                    return _items.get(this).length;
+                };
+
+                // toString() 
+                toString() {
+                    return _items.get(this);
+                }
+            }
+        })()
+
+        /**
+         * 队列的应用
+         * 
+         * 1， 优先队列， 
+         *  - 入队列时候传入参数，队列按照传入的参数进行排列
+         *  - 只需要修改enqueue 方法 ， 按照传入的参数进行对数组的排序
+         */
+
+        var a = new PriorityQueue();
+        a.enqueue('zhangsan', 4);
+        a.enqueue('lisi', 1);
+        a.enqueue('wangwu', 2);
+        a.enqueue('zhaoliu', 5);
+        // a.dequeue();
+        console.log(a.front());
+        console.log(a.isEmpty());
+        console.log(a.size());
+        console.log(a.toString());
+    </script>
+</body>
+
+</html>

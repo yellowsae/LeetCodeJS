@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS队列</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * Queue 队列
+         * 
+         * 1. enqueue 入列 
+         * 2. dequeue 出列
+         * 3. front 获取最前的元素
+         * 4. isEmpty 判断队列是否为空
+         * 5. size 返回队列的长度
+         */
+
+        // 定义队列基本和栈一样，使用 WeakMap 和 立即执行函数
+
+        let Queue = (function() {
+            var _items = new WeakMap();
+            return class Queue {
+                constructor() {
+                    _items.set(this, []);
+                };
+                // 1. enqueue 入列 
+                enqueue(elem) {
+                    // 往数组添加元素
+                    _items.get(this).push(elem);
+                };
+                // 2. dequeue 出列
+                dequeue(elem) {
+                    // 使用 shift () 移除数组最前的元素
+                    _items.get(this).shift();
+                };
+
+                //3. fnont 获取最前的元素
+                front() {
+                    // 返回队列最前的元素
+                    return _items.get(this)[0];
+                };
+
+                // 4. 判断队列是否为空
+                isEmpty() {
+                    return _items.get(this).length === 0;
+                };
+
+                //size 返回队列的长度
+                size() {
+                    return _items.get(this).length;
+                };
+
+                // toString() 
+                toString() {
+                    return _items.get(this);
+                }
+            }
+        })()
+
+        var a = new Queue();
+        a.enqueue(1);
+        a.enqueue(2);
+        a.enqueue(3);
+        a.enqueue(4);
+        a.dequeue(1);
+        console.log(a.front());
+        console.log(a.isEmpty());
+        console.log(a.size());
+        console.log(a.toString());
+
+
+        /**
+         * 队列的应用
+         * 
+         * 1， 优先队列， 
+         *  - 入队列时候传入参数，队列按照传入的参数进行排列
+         */
+    </script>
+</body>
+
+</html>
