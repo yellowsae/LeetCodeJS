@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS链表</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 
+         * 1。 认识链表
+         *  链表是一个节点，通过节点存储值
+         * 
+         */
+
+        /*
+        // 定义链的方式
+        function Node (element) {  // 链表的存储方式，是通过节点方式存储
+            this.element = element;
+          // next 指针， 指向的它的下一个节点
+            this.next = next;
+        }
+         */
+
+        /**
+         * 链表具有方法
+         * 链表具有的方法 
+            append  往链表尾部添加元素
+            insert  特定位置添加
+            remove  根据内容移除项
+            removeAt  根据索引移除项
+            indexOf    找到索引
+            isEmpty  判断链表是否为空
+            size   链表的长度
+         */
+
+        // 定义链表
+        // 同样使用 ES6 class 和立即执行函数
+        let LinkedList = (function() {
+
+            // 定义一个链表 
+            class Node {
+                // 初始化链表
+                constructor(element) {
+                    this.element = element;
+                    this.next = null;
+                }
+            }
+
+            // 定义链表初始化值
+            let length = new WeakMap(); // 初始时，链表的长度
+            let head = new WeakMap(); // 初始时， 链表的头部
+
+            // 返回的链表
+            return class LinkedList {
+                constructor() {
+                    // 初始化, 当前的链表 
+                    length.set(this, 0); // 长度为0
+                    head.set(this, null); // 头部数据为 null
+                }
+
+                // 链表的方法
+                // append 在链表最后添加节点
+                append(element) {
+                    // 创建节点
+                    let node = new Node(element),
+
+                        // 声明一个变量，用于保存链表的头部数据
+                        current;
+
+                    // 判断链表是否有数据
+                    if (this.getHeader() === null) {
+                        // 当链表为空的情况下
+                        head.set(this, node); // 直接添加
+                    } else {
+                        // 链表头部不为空
+                        // 找到链表最末的节点， 让最末的节点的 next 指向添的node 
+                        current = this.getHeader(); // 获取当前的head 
+
+                        // 判断当前节点的next存在
+                        while (current.next) {
+                            // next ++ ，一直循环
+                            current = current.next;
+                        }
+
+                        // 进行while循环完后，current 就为最后的节点。
+                        // 然后进行赋值 
+                        current.next = node;
+
+                        // 赋值后，让链表长度 +1
+                        // 使用size获取链表的长度
+                        let l = this.size();
+                        l++; // 让链表的长度加一 
+                        length.set(this, l); // 重新赋值
+                    }
+                }
+
+
+                // 在链表任何位置插入数据
+                insert(position, element) {
+                    // position : 链表的位置
+                    // element : 插入的节点数据
+
+                    // 判断当前链表
+                    if (position >= 0 && position <= this.size()) {
+                        // 创建节点
+                        let node = new Node(element),
+                            // 使用current 保存到获取链表的头部
+                            current = this.getHeader(),
+                            index = 0,
+                            previous;
+
+                        // 判断链表
+                        if (position === 0) {
+                            // 表示在链表的头部插入数据
+                            node.next = current; // 将初始的链表的指针设置为新创建的node 
+                            head.set(this, node); // 链表赋值
+                        } else {
+                            // 表示插入的节点在某一个节点前
+                            while (index++ < position) {
+                                previous = current;
+                                current = current.next;
+                            }
+                            // 将它们的next() 指向另一个node 
+                            node.next = current;
+                            previous.next = node;
+                        }
+                        // 让length ++
+                        // 使用size获取链表的长度
+                        let l = this.size();
+                        l++; // 让链表的长度加一 
+                        length.set(this, l); // 重新赋值
+                        // 追加后，返回head, 查看head
+                        console.log(this.getHeader()); // 返回是否插入成功
+                        return true;
+                    } else {
+                        // 插入不成功
+                        return false;
+                    }
+                }
+
+
+                // 判断链表的头部
+                getHeader() {
+                    return head.get(this);
+                }
+
+                // 返回链表的长度
+                size() {
+                    return length.get(this);
+                }
+
+            }
+        })();
+
+        let list = new LinkedList();
+        list.append(0);
+        list.append(1);
+        list.append(2);
+        list.append(3);
+        // insert方法的实现和数组的插入方法一样
+        // var arr = [0, 1, 2, 3, 4];
+        // arr.splice(2, 0, 1.5);
+        // console.log(arr);
+        console.log(list.insert(2, 1.5)); // 2： 插入的位置， 1.5 插入的数据
+    </script>
+</body>
+
+</html>
+
+</html>
