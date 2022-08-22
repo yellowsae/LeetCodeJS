@@ -71,3 +71,40 @@ for (let i = 0; i < arr.length; i++) {
   console.log(isValid(arr[i]))
 
 }
+
+
+// {} () []
+
+// 判断是否是有效括号
+function isValid_2(s) {
+  //  创建一个栈  
+  const stack = []
+
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i]  // 取值 
+    if (
+      (c === "(") || (c === "[") || (c === "{")
+    ) {
+      // 入栈
+      stack.push(c)
+    } else {
+      // c 为 右括号
+      // 判断栈顶元素是否与 c 匹配
+      const top = stack[stack.length - 1]
+      if (
+        (top === "(" && c === ")") ||
+        (top === "[" && c === "]") ||
+        (top === "{" && c === "}")
+      ) {
+        // 出栈
+        stack.pop()
+      }
+    }
+  }
+  return stack.length === 0
+}
+console.log("00000")
+for (let i = 0; i < arr.length; i++) {
+  console.log(isValid(arr[i]))
+
+}
